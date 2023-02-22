@@ -13,7 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView player;
     private Button[] buttons = new Button[9];
-    private Button resetGame;
 
     boolean activePlayerOne = true;
     boolean activePlayerTwo = false;
@@ -30,6 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
     boolean thereIsAWinner = false;
 
+    Button button01;
+    Button button02;
+    Button button03;
+    Button button04;
+    Button button05;
+    Button button06;
+    Button button07;
+    Button button08;
+    Button button09;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         player = (TextView) findViewById(R.id.player);
 
-        resetGame = (Button) findViewById(R.id.reset_button);
-
-        Button button01 = findViewById(R.id.button_1);
-        Button button02 = findViewById(R.id.button_2);
-        Button button03 = findViewById(R.id.button_3);
-        Button button04 = findViewById(R.id.button_4);
-        Button button05 = findViewById(R.id.button_5);
-        Button button06 = findViewById(R.id.button_6);
-        Button button07 = findViewById(R.id.button_7);
-        Button button08 = findViewById(R.id.button_8);
-        Button button09 = findViewById(R.id.button_9);
+        button01 = findViewById(R.id.button_1);
+        button02 = findViewById(R.id.button_2);
+        button03 = findViewById(R.id.button_3);
+        button04 = findViewById(R.id.button_4);
+        button05 = findViewById(R.id.button_5);
+        button06 = findViewById(R.id.button_6);
+        button07 = findViewById(R.id.button_7);
+        button08 = findViewById(R.id.button_8);
+        button09 = findViewById(R.id.button_9);
+        Button resetButton = findViewById(R.id.reset_button);
 
         button01.setOnClickListener(buttonAction);
         button02.setOnClickListener(buttonAction);
@@ -59,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         button07.setOnClickListener(buttonAction);
         button08.setOnClickListener(buttonAction);
         button09.setOnClickListener(buttonAction);
+        resetButton.setOnClickListener(resetGame);
 
     }
 
@@ -85,15 +94,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if(checkWinner() && activePlayerOne){
-                player.setText("Jugador uno es el ganador");
+                player.setText("Player one is winner!");
                 thereIsAWinner = true;
             } else if(checkWinner() && activePlayerTwo){
-                player.setText("Jugador dos es el ganador");
+                player.setText("Player two is winner!");
                 thereIsAWinner = true;
             }
 
             activePlayerOne = !activePlayerOne;
             activePlayerTwo = !activePlayerTwo;
+
+            if(!thereIsAWinner){
+                if(activePlayerOne){
+                    player.setText("Player one turn");
+                } else if(activePlayerTwo){
+                    player.setText("Player two turn");
+                }
+            }
         }
     };
 
@@ -111,6 +128,29 @@ public class MainActivity extends AppCompatActivity {
 
         return isWinner;
     }
+
+
+    View.OnClickListener resetGame = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            activePlayerOne = true;
+            activePlayerTwo = false;
+            thereIsAWinner = false;
+            button01.setText("");
+            button02.setText("");
+            button03.setText("");
+            button04.setText("");
+            button05.setText("");
+            button06.setText("");
+            button07.setText("");
+            button08.setText("");
+            button09.setText("");
+            player.setText("Player one starts the game");
+            for(int i = 0; i < buttons.length; i++){
+                gameState[i] = 2;
+            }
+        }
+    };
 
 
 }
